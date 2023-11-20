@@ -115,3 +115,39 @@ Analisando cada parte do script:
 Essa configuração é típica em arquiteturas de microserviços, onde o Eureka é usado para registrar e descobrir dinamicamente serviços na rede. O servidor Eureka (`http://localhost:8761/eureka/` no exemplo) é onde outros serviços podem consultar para descobrir informações sobre os serviços disponíveis.
 
 Em resumo, este script configura um aplicativo Spring Boot para escutar na porta 8081 e interagir com um servidor Eureka localizado em http://localhost:8761/eureka/. Essa integração facilita a descoberta dinâmica de serviços em ambientes distribuídos.
+
+## Configurando no servidor config-server no arquivo de configuração `department-service.yaml` o zipkin
+
+Adicionando o serviço do Zipkin para gerar a probabilidade de amostragem de rastreamento de gerenciamento do departamento. O objetivo é fazer com que o serviço de departamento publique todos os seus dados para o Zipkin.
+
+```yaml
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+```
+
+Essa configuração está relacionada ao rastreamento distribuído usado em ambientes de microserviços, para monitorar e analisar o fluxo de solicitações entre diferentes serviços.
+
+Analisando cada parte dessa configuração:
+
+1. **`management`**:
+   - O prefixo `management` refere-se a configurações de gerenciamento e monitoramento no contexto de um aplicativo Spring Boot.
+
+2. **`tracing`**:
+   - O subpacote `tracing` é específico para configurações relacionadas ao rastreamento.
+
+3. **`sampling`**:
+   - O subpacote `sampling` lida com a amostragem de rastreamentos. Amostragem é o processo de decidir quais solicitações devem ser incluídas no rastreamento e quais não.
+
+4. **`probability: 1.0`**:
+   - A configuração `probability` define a probabilidade de amostragem. Neste caso, está configurada como `1.0`, o que significa que todas as solicitações serão amostradas.
+
+   - O valor `1.0` indica uma probabilidade de 100%. Em outras palavras, todas as solicitações serão incluídas no rastreamento.
+
+   - Se você definisse `probability` como `0.5`, seria uma probabilidade de 50%, o que significaria que metade das solicitações seria amostrada aleatoriamente.
+
+   - A amostragem é frequentemente usada para limitar o volume de dados de rastreamento, especialmente em ambientes de produção, onde pode ser impraticável ou indesejável rastrear cada solicitação.
+
+**Resumo:**
+Essa configuração específica indica que todas as solicitações devem ser amostradas para rastreamento distribuído. Isso significa que o sistema de rastreamento (como Zipkin ou Jaeger) irá coletar e armazenar informações sobre todas as solicitações que passam pelo aplicativo. Em ambientes de produção, isso pode gerar uma grande quantidade de dados, e a amostragem é uma maneira de controlar esse volume. Ao definir a probabilidade de amostragem como `1.0`, todas as solicitações são incluídas no rastreamento.
