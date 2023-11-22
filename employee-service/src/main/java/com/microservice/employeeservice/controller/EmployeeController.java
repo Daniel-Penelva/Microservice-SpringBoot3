@@ -18,28 +18,28 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    // localhost:8081/api/employee/create
+    // localhost:8082/api/employee/create
     @PostMapping("/create")
     public Employee add(@RequestBody Employee employee){
         LOGGER.info("Employee add: {}", employee);
         return employeeRepository.addEmployee(employee);
     }
 
-    // localhost:8081/api/employee/all
+    // localhost:8082/api/employee/all
     @GetMapping("/all")
     public List<Employee> findAll(){
         LOGGER.info("Employee find");
         return employeeRepository.findAll();
     }
 
-    // localhost:8081/api/employee/search/{id}
+    // localhost:8082/api/employee/search/{id}
     @GetMapping("/search/{id}")
     public Employee findById(@PathVariable Long id){
         LOGGER.info("Employee find: id={}", id);
         return employeeRepository.findById(id);
     }
 
-    // localhost:8081/api/employee/department/{departmentId}
+    // localhost:8082/api/employee/department/{departmentId}
     @GetMapping("/department/{departmentId}")
     public List<Employee> findByDepartment(@PathVariable("departmentId") Long departmentId) {
         LOGGER.info("Employee find: departmentId={}", departmentId);
